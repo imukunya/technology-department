@@ -18,7 +18,10 @@ public class SqlDepartmentsDao implements DepartmentDao{
 
     @Override
     public List<Departments> getAll() {
-        return null;
+        try(Connection con = sql2o.open()){
+            return con.createQuery("SELECT * FROM departments") //raw sql
+                    .executeAndFetch(Departments.class); //fetch a list
+        }
     }
 
     @Override

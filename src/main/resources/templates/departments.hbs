@@ -3,7 +3,21 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8" id="content-panel">
-                Content Panel
+                {{#each departments}}
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tbody>
+                            <tr>
+                                <td>{{name}}</td>
+                                <td>
+                                    <a href="">Edit</a> | <a href="">Delete</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                {{/each}}
+
             </div>
             <div class="col" id="edit-forms-container">
 

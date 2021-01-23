@@ -2,6 +2,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import dao.DepartmentDao;
 import dao.SqlDepartmentsDao;
 import models.Departments;
 import org.sql2o.*;
@@ -44,8 +45,8 @@ public class App {
         //department home
         get("/departments", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
-
-            //model.put("key", listValue);
+            List <Departments> departments = new SqlDepartmentsDao(sql2o).getAll();
+            model.put("departments", departments);
             //model.put("",);
             return new ModelAndView(model, "departments.hbs");
         }, new HandlebarsTemplateEngine());
@@ -53,9 +54,9 @@ public class App {
         //add a department
         post("/departments/add", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
-
+            List <Departments> departments = new SqlDepartmentsDao(sql2o).getAll();
+            model.put("departments", departments);
             String name = req.queryParams("departmentName");
-
             Departments dept = new Departments(name);
             sqlDepartmentDao.add(dept);
             int addedID = dept.getId();
