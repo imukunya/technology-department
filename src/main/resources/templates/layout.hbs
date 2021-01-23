@@ -7,15 +7,22 @@
     <link rel='stylesheet' href='/app.css'>
 </head>
 <body>
-
+    <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="https://getbootstrap.com/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="30" height="24" class="d-inline-block align-top">
+                Bootstrap
+            </a>
+        </div>
+    </nav>
     <div class="container">
         <div class="row">
             <div class="col" id="main-menu">
                 <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                    <a class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Home</a>
-                    <a class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Profile</a>
-                    <a class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Messages</a>
-                    <a class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</a>
+                    <a class="nav-link" id="v-pills-profile-tab"   href="/departments" aria-selected="false">Departments</a>
+                    <a class="nav-link" id="v-pills-profile-tab"   href="/staff" aria-selected="false">Staff</a>
+                    <a class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Roles</a>
+                    <a class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Responsibilities</a>
                 </div>
             </div>
             <div class="col-8" id="display-screen">
@@ -26,9 +33,7 @@
                 {{/block}}
 
             </div>
-<!--            <div class="col" id="edit-forms-container">-->
-<!--                -->
-<!--            </div>-->
+
         </div>
     </div>
 </div>
