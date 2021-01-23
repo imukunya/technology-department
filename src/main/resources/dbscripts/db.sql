@@ -1,4 +1,4 @@
-CREATE TABLE departments("id" INT, "name" TEXT );
+CREATE TABLE departments("id" SERIAL INT, "name" VARCHAR );
 
 CREATE TABLE staff( "staff_id", "names" TEXT, "staff_number" TEXT);
 
