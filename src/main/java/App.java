@@ -11,6 +11,7 @@ import static spark.Spark.*;
 
 public class App {
     public static Boolean connectionStatus = false;
+    public static Boolean createdDept = false;
     public static void main(String[] args) {
 
 
@@ -19,6 +20,8 @@ public class App {
         String connectionString = "jdbc:postgresql://localhost:5432/technology";      //connect to todolist, not todolist_test!
         Sql2o sql2o = new Sql2o(connectionString, "admin", "admin");
         SqlDepartmentsDao sqlDepartmentDao = new SqlDepartmentsDao(sql2o);
+
+
 
         testConnection(sql2o);
         if(connectionStatus){
@@ -56,7 +59,9 @@ public class App {
             Departments dept = new Departments(name);
             sqlDepartmentDao.add(dept);
             int addedID = dept.getId();
-            model.put("name",addedID);
+            model.put("name",name);
+            createdDept = true;
+            model.put("createdDept",createdDept);
             return new ModelAndView(model, "departments.hbs");
         }, new HandlebarsTemplateEngine());
 
