@@ -40,12 +40,24 @@ public class SqlDepartmentsDao implements DepartmentDao{
 
     @Override
     public Departments findById(int id) {
-        return null;
+        try(Connection con = sql2o.open()){
+            return con.createQuery("SELECT * FROM departments WHERE id = :id")
+                    .addParameter("id", id) //key/value pair, key must match above
+                    .executeAndFetchFirst(Departments.class); //fetch an individual item
+        }
     }
 
     @Override
     public void update(int id, String name) {
-
+        String sql = "UPDATE departments SET name = :name WHERE id=:id";
+        try(Connection con = sql2o.open()){
+            con.createQuery(sql)
+                    .addParameter("name", name)
+                    .addParameter("id", id)
+                    .executeUpdate();
+        } catch (Sql2oException ex) {
+            System.out.println(ex);
+        }
     }
 
     @Override

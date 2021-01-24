@@ -12,7 +12,10 @@ import static spark.Spark.*;
 
 public class App {
     public static Boolean connectionStatus = false;
+    public static Boolean createDepartmentFormView = false;
     public static Boolean createdDept = false;
+    public static Boolean editDepartmentFormView = false;
+    public static Boolean saveEditDepartmentMsg =false;
     public static void main(String[] args) {
 
 
@@ -35,7 +38,8 @@ public class App {
         get("/", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
             //model.put("categories", allCategories);
-            //model.put("tasks", tasks);
+            createDepartmentFormView = true;
+            model.put("createDepartmentFormView = true;", createDepartmentFormView);
             return new ModelAndView(model, "index.hbs");
         }, new HandlebarsTemplateEngine());
 
@@ -45,8 +49,11 @@ public class App {
         //department home
         get("/departments", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
+
             List <Departments> departments = new SqlDepartmentsDao(sql2o).getAll();
             model.put("departments", departments);
+            createDepartmentFormView = true;
+            model.put("createDepartmentFormView", createDepartmentFormView);
             //model.put("",);
             return new ModelAndView(model, "departments.hbs");
         }, new HandlebarsTemplateEngine());
@@ -56,6 +63,8 @@ public class App {
             Map<String, Object> model = new HashMap<>();
             List <Departments> departments = new SqlDepartmentsDao(sql2o).getAll();
             model.put("departments", departments);
+            createDepartmentFormView = true;
+            model.put("createDepartmentFormView", createDepartmentFormView);
             String name = req.queryParams("departmentName");
             Departments dept = new Departments(name);
             sqlDepartmentDao.add(dept);
@@ -66,12 +75,54 @@ public class App {
             return new ModelAndView(model, "departments.hbs");
         }, new HandlebarsTemplateEngine());
 
-//        get("/", (req, res) -> {
+
+        get("/departments/:id/edit", (req, res) -> {
+            Map<String, Object> model = new HashMap<>();
+            List <Departments> departments = new SqlDepartmentsDao(sql2o).getAll();
+            model.put("departments", departments);
+            int deptId = Integer.parseInt(req.params("id"));
+            Departments department = sqlDepartmentDao.findById(deptId);
+
+            createDepartmentFormView =false;
+            editDepartmentFormView = true;
+            model.put("editDepartmentFormView",editDepartmentFormView);
+            model.put("createDepartmentFormView",createDepartmentFormView);
+            model.put("department",department);
+            //model.put("key", listValue);
+            //model.put("",);
+            return new ModelAndView(model, "departments.hbs");
+        }, new HandlebarsTemplateEngine());
+
+
+        post("/departments/edit", (req, res) -> {
+            Map<String, Object> model = new HashMap<>();
+            List <Departments> departments = new SqlDepartmentsDao(sql2o).getAll();
+            model.put("departments", departments);
+
+            int id = Integer.parseInt(req.queryParams("id"));
+            String updatedName = req.queryParams("departmentName");
+
+            System.out.print("UPDATED NAME:"+updatedName);
+            sqlDepartmentDao.update(id,updatedName);
+            createDepartmentFormView =false;
+            editDepartmentFormView = false;
+            saveEditDepartmentMsg = true;
+            model.put("editDepartmentFormView",editDepartmentFormView);
+            model.put("createDepartmentFormView",createDepartmentFormView);
+            model.put("saveEditDepartmentMsg",saveEditDepartmentMsg);
+            model.put("updatedName",updatedName);
+            //model.put("key", listValue);
+            //model.put("",);
+            return new ModelAndView(model, "departments.hbs");
+        }, new HandlebarsTemplateEngine());
+
+        //        get("/", (req, res) -> {
 //            Map<String, Object> model = new HashMap<>();
 //            //model.put("key", listValue);
 //            //model.put("",);
 //            return new ModelAndView(model, "");
 //        }, new HandlebarsTemplateEngine());
+
 
     }
 
