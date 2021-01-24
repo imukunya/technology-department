@@ -11,7 +11,7 @@
                                 <td>{{id}}</td>
                                 <td>{{name}}</td>
                                 <td>
-                                    <a href="/departments/{{id}}/edit">Edit</a> | <a href="">Delete</a>
+                                    <a href="/departments/{{id}}/edit">Edit</a> | <a href="/departments/{{id}}/delete">Delete</a>
                                 </td>
                             </tr>
                             </tbody>
@@ -80,6 +80,12 @@
                         myModal.show();
                     </script>
                 {{/if}}
+
+                {{#if deleteDepartmentMsg}}
+                    <div class="alert alert-success" role="alert">
+                        <h4 class="alert-heading">Department deleted</h4>
+                    </div>
+                    {{/if}}
 
             </div>
         </div>

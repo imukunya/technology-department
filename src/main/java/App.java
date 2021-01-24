@@ -12,10 +12,13 @@ import static spark.Spark.*;
 
 public class App {
     public static Boolean connectionStatus = false;
+
     public static Boolean createDepartmentFormView = false;
     public static Boolean createdDept = false;
     public static Boolean editDepartmentFormView = false;
     public static Boolean saveEditDepartmentMsg =false;
+    public static Boolean deleteDepartmentMsg = false;
+
     public static void main(String[] args) {
 
 
@@ -113,6 +116,26 @@ public class App {
             model.put("updatedName",updatedName);
             //model.put("key", listValue);
             //model.put("",);
+            return new ModelAndView(model, "departments.hbs");
+        }, new HandlebarsTemplateEngine());
+
+
+        get("/departments/:id/delete", (req, res) -> {
+            Map<String, Object> model = new HashMap<>();
+            List <Departments> departments = new SqlDepartmentsDao(sql2o).getAll();
+            model.put("departments", departments);
+
+            int deptId = Integer.parseInt(req.params("id"));
+            sqlDepartmentDao.deleteById(deptId);
+
+            createDepartmentFormView =false;
+            editDepartmentFormView = false;
+            saveEditDepartmentMsg = false;
+            deleteDepartmentMsg =true;
+            model.put("editDepartmentFormView",editDepartmentFormView);
+            model.put("createDepartmentFormView",createDepartmentFormView);
+            model.put("saveEditDepartmentMsg",saveEditDepartmentMsg);
+            model.put("deleteDepartmentMsg",deleteDepartmentMsg);
             return new ModelAndView(model, "departments.hbs");
         }, new HandlebarsTemplateEngine());
 
