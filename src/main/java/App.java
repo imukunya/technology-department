@@ -4,8 +4,10 @@ import java.util.Map;
 
 import dao.DepartmentDao;
 import dao.SqlDepartmentsDao;
+import dao.SqlResponsibilitiesDao;
 import dao.SqlRolesDao;
 import models.Departments;
+import models.Responsibilities;
 import models.Roles;
 import org.sql2o.*;
 import spark.ModelAndView;
@@ -27,6 +29,12 @@ public class App {
     public static Boolean saveEditRoleMsg =false;
     public static Boolean deleteRoleMsg = false;
 
+    public static Boolean createResponsibilityFormView = false;
+    public static Boolean createdResponsibility = false;
+    public static Boolean editResponsibilityFormView = false;
+    public static Boolean saveEditResponsibilityMsg =false;
+    public static Boolean deleteResponsibilityMsg = false;
+
     public static void main(String[] args) {
 
 
@@ -36,7 +44,7 @@ public class App {
         Sql2o sql2o = new Sql2o(connectionString, "admin", "admin");
         SqlDepartmentsDao sqlDepartmentDao = new SqlDepartmentsDao(sql2o);
         SqlRolesDao sqlRolesDao = new SqlRolesDao(sql2o);
-
+        SqlResponsibilitiesDao sqlResponsibilitiesDao = new SqlResponsibilitiesDao(sql2o);
 
         testConnection(sql2o);
         if(connectionStatus){
@@ -245,6 +253,103 @@ public class App {
             return new ModelAndView(model, "roles.hbs");
         }, new HandlebarsTemplateEngine());
 
+        /**
+         * END OF ROLES
+         */
+
+
+        /**
+         * responsibilities
+         */
+        //roles home
+        get("/responsibilities", (req, res) -> {
+            Map<String, Object> model = new HashMap<>();
+
+            List <Responsibilities> responsibilities = new SqlResponsibilitiesDao(sql2o).getAll();
+            model.put("responsibilities", responsibilities);
+            createResponsibilityFormView = true;
+            model.put("createResponsibilityFormView", createResponsibilityFormView);
+            //model.put("",);
+            return new ModelAndView(model, "responsibilities.hbs");
+        }, new HandlebarsTemplateEngine());
+
+        //add a role
+        post("/responsibilities/add", (req, res) -> {
+            Map<String, Object> model = new HashMap<>();
+            List <Responsibilities> responsibilities = new SqlResponsibilitiesDao(sql2o).getAll();
+            model.put("responsibilities", responsibilities);
+            createResponsibilityFormView = true;
+            model.put("createResponsibilityFormView", createResponsibilityFormView);
+            String name = req.queryParams("responsibilityName");
+            Responsibilities responsibility = new Responsibilities(name);
+            sqlResponsibilitiesDao.add(responsibility);
+            int addedID = responsibility.getId();
+            model.put("name",name);
+            createdRole = true;
+            model.put("createdResponsibility",createdResponsibility);
+            return new ModelAndView(model, "responsibilities.hbs");
+        }, new HandlebarsTemplateEngine());
+
+
+        get("/responsibilities/:id/edit", (req, res) -> {
+            Map<String, Object> model = new HashMap<>();
+            List <Responsibilities> responsibilities = new SqlResponsibilitiesDao(sql2o).getAll();
+            model.put("roles", responsibilities);
+            int responsibilityId = Integer.parseInt(req.params("id"));
+            Responsibilities responsibility = sqlResponsibilitiesDao.findById(responsibilityId);
+
+            createResponsibilityFormView =false;
+            editResponsibilityFormView = true;
+            model.put("editResponsibilityFormView",editResponsibilityFormView);
+            model.put("createResponsibilityFormView",createResponsibilityFormView);
+            model.put("responsibility",responsibility);
+            //model.put("key", listValue);
+            //model.put("",);
+            return new ModelAndView(model, "responsibilities.hbs");
+        }, new HandlebarsTemplateEngine());
+
+
+        post("/responsibilities/edit", (req, res) -> {
+            Map<String, Object> model = new HashMap<>();
+            List <Responsibilities> responsibilities = new SqlResponsibilitiesDao(sql2o).getAll();
+            model.put("roles", responsibilities);
+
+            int id = Integer.parseInt(req.queryParams("id"));
+            String updatedName = req.queryParams("roleName");
+
+            System.out.print("UPDATED NAME:"+updatedName);
+            sqlResponsibilitiesDao.update(id,updatedName);
+            createResponsibilityFormView =false;
+            editResponsibilityFormView = false;
+            saveEditResponsibilityMsg = true;
+            model.put("editResponsibilityFormView",editResponsibilityFormView);
+            model.put("createResponsibilityFormView",createResponsibilityFormView);
+            model.put("saveEditResponsibilityMsg",saveEditResponsibilityMsg);
+            model.put("updatedName",updatedName);
+            //model.put("key", listValue);
+            //model.put("",);
+            return new ModelAndView(model, "responsibilities.hbs");
+        }, new HandlebarsTemplateEngine());
+
+
+        get("/responsibilities/:id/delete", (req, res) -> {
+            Map<String, Object> model = new HashMap<>();
+            List <Roles> roles = new SqlRolesDao(sql2o).getAll();
+            model.put("departments", roles);
+
+            int roleId = Integer.parseInt(req.params("id"));
+            sqlRolesDao.deleteById(roleId);
+
+            createRoleFormView =false;
+            editRoleFormView = false;
+            saveEditRoleMsg = false;
+            deleteRoleMsg =true;
+            model.put("editRoleFormView",editRoleFormView);
+            model.put("createRoleFormView",createRoleFormView);
+            model.put("saveEditRoleMsg",saveEditRoleMsg);
+            model.put("deleteRoleMsg",deleteRoleMsg);
+            return new ModelAndView(model, "roles.hbs");
+        }, new HandlebarsTemplateEngine());
 
         //        get("/", (req, res) -> {
 //            Map<String, Object> model = new HashMap<>();

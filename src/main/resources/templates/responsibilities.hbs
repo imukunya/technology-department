@@ -1,0 +1,96 @@
+{{#partial "content"}}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8" id="content-panel">
+                {{#each responsibility}}
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tbody>
+                            <tr>
+                                <td>{{id}}</td>
+                                <td>{{name}}</td>
+                                <td>
+                                    <a href="/responsibilities/{{id}}/edit">Edit</a> | <a href="/responsibilities/{{id}}/delete">Delete</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                {{/each}}
+
+            </div>
+            <div class="col" id="forms-container">
+
+                {{#if createresponsibilityFormView}}
+                    <form action="/responsibilities/add" method="post">
+                        <div class="mb-3">
+                            <label for="responsibilityName" class="form-label">Responsibility Name</label>
+                            <input type="text" class="form-control" name="responsibilityName" id="responsibilityName" aria-describedby="Responsibility Name">
+                            <div id="emailHelp" class="form-text">Please add a Responsibility name.</div>
+
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Add responsibility</button>
+
+                    </form>
+                    <div class="" id="user-feeback">
+                        {{#if createdResponsibility}}
+                            <div id="emailHelp" class="form-text text-success">Added responsibility name: {{name}}</div>
+
+                        {{/if}}
+
+
+
+                    </div>
+                {{/if}}
+                {{#if editResponsibilityFormView}}
+                    <h4>
+                        Edit
+                    </h4>
+                    <form action="/responsibilities/edit" method="post">
+                        <div class="mb-3">
+                            <label for="responsibilityName" class="form-label">Edit responsibility</label>
+                            <input type="text" class="form-control" value="{{responsibility.name}}" name="responsibilityName" id="responsibilityName" aria-describedby="Responsibility Name"><div id="emailHelp" class="form-text">Please add a responsibility name.</div>
+                            <input type="hidden" value="{{responsibility.id}}" name="id">
+                        </div>
+
+                        <button type="submit" class="btn btn-success">Save Changes</button>
+
+                    </form>
+                {{/if}}
+
+                {{#if saveEditResponsibilityMsg}}
+
+                <div class="modal" id="myModal" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content" id="myModal">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Modal title</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>New responsibility name updated to:{{updatedName}}</p>
+                            </div>
+
+                        </div>
+                    </div>
+                    <script>
+                        var myModal = new bootstrap.Modal(document.getElementById('myModal'));
+                        myModal.show();
+                    </script>
+                {{/if}}
+
+                {{#if deleteResponsibilityMsg}}
+                    <div class="alert alert-success" role="alert">
+                        <h4 class="alert-heading">Responsibility deleted</h4>
+                    </div>
+                {{/if}}
+
+            </div>
+            </div>
+        </div>
+
+{{/partial}}
+
+{{> layout.hbs}}

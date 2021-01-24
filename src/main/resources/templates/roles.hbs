@@ -25,7 +25,7 @@
                 {{#if createRoleFormView}}
                     <form action="/roles/add" method="post">
                         <div class="mb-3">
-                            <label for="roleName" class="form-label">Department Name</label>
+                            <label for="roleName" class="form-label">Role Name</label>
                             <input type="text" class="form-control" name="roleName" id="roleName" aria-describedby="Role ">
                             <div id="emailHelp" class="form-text">Please add a role.</div>
 
@@ -50,8 +50,8 @@
                     </h4>
                     <form action="/role/edit" method="post">
                         <div class="mb-3">
-                            <label for="roleName" class="form-label">Edit Department</label>
-                            <input type="text" class="form-control" value="{{role.name}}" name="departmentName" id="departmentName" aria-describedby="Department Name"><div id="emailHelp" class="form-text">Please add a department name.</div>
+                            <label for="roleName" class="form-label">Edit Role</label>
+                            <input type="text" class="form-control" value="{{role.name}}" name="roleName" id="roleName" aria-describedby="Role Name"><div id="emailHelp" class="form-text">Please add a Role.</div>
                             <input type="hidden" value="{{role.id}}" name="id">
                         </div>
 
