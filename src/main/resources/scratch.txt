@@ -1,3 +1,11 @@
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:2.3.2:compile (default-compile) on project my-app: Compilation failure: Compilation failure:
+[ERROR] /home/ianmukunya/IdeaProjects/technology-department-app/src/main/java/App.java:[9,32] error: package spark.template.handlebars does not exist
+
+
+_______________________________________________________________________________________________________
+
+POM.XML
+
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
