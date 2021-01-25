@@ -1,0 +1,96 @@
+{{#partial "content"}}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8" id="content-panel">
+                {{#each departments}}
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tbody>
+                            <tr>
+                                <td>{{id}}</td>
+                                <td>{{name}}</td>
+                                <td>
+                                    <a href="/departments/{{id}}/edit">Edit</a> | <a href="/departments/{{id}}/delete">Delete</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                {{/each}}
+
+            </div>
+            <div class="col" id="forms-container">
+
+                {{#if createDepartmentFormView}}
+                    <form action="/departments/add" method="post">
+                        <div class="mb-3">
+                            <label for="departmentName" class="form-label">Department Name</label>
+                            <input type="text" class="form-control" name="departmentName" id="departmentName" aria-describedby="Department Name">
+                            <div id="emailHelp" class="form-text">Please add a department name.</div>
+
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Add Department</button>
+
+                    </form>
+                    <div class="" id="user-feeback">
+                        {{#if createdDept}}
+                            <div id="emailHelp" class="form-text text-success">Added department name: {{name}}</div>
+
+                        {{/if}}
+
+
+
+                    </div>
+                    {{/if}}
+                    {{#if editDepartmentFormView}}
+                        <h4>
+                            Edit
+                        </h4>
+                        <form action="/departments/edit" method="post">
+                            <div class="mb-3">
+                                <label for="departmentName" class="form-label">Edit Department</label>
+                                <input type="text" class="form-control" value="{{department.name}}" name="departmentName" id="departmentName" aria-describedby="Department Name"><div id="emailHelp" class="form-text">Please add a department name.</div>
+                                <input type="hidden" value="{{department.id}}" name="id">
+                            </div>
+
+                            <button type="submit" class="btn btn-success">Save Changes</button>
+
+                        </form>
+                    {{/if}}
+
+                {{#if saveEditDepartmentMsg}}
+
+                <div class="modal" id="myModal" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content" id="myModal">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Modal title</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>New department name updated to:{{updatedName}}</p>
+                            </div>
+
+                        </div>
+                    </div>
+                    <script>
+                        var myModal = new bootstrap.Modal(document.getElementById('myModal'));
+                        myModal.show();
+                    </script>
+                {{/if}}
+
+                {{#if deleteDepartmentMsg}}
+                    <div class="alert alert-success" role="alert">
+                        <h4 class="alert-heading">Department deleted</h4>
+                    </div>
+                    {{/if}}
+
+            </div>
+        </div>
+    </div>
+
+{{/partial}}
+
+{{> layout.hbs}}

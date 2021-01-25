@@ -1,0 +1,96 @@
+{{#partial "content"}}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8" id="content-panel">
+                {{#each roles}}
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tbody>
+                            <tr>
+                                <td>{{id}}</td>
+                                <td>{{name}}</td>
+                                <td>
+                                    <a href="/roles/{{id}}/edit">Edit</a> | <a href="/roles/{{id}}/delete">Delete</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                {{/each}}
+
+            </div>
+            <div class="col" id="forms-container">
+
+                {{#if createRoleFormView}}
+                    <form action="/roles/add" method="post">
+                        <div class="mb-3">
+                            <label for="roleName" class="form-label">Role Name</label>
+                            <input type="text" class="form-control" name="roleName" id="roleName" aria-describedby="Role ">
+                            <div id="emailHelp" class="form-text">Please add a role.</div>
+
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Add role</button>
+
+                    </form>
+                    <div class="" id="user-feeback">
+                        {{#if createdRole}}
+                            <div id="emailHelp" class="form-text text-success">Added role name: {{name}}</div>
+
+                        {{/if}}
+
+
+
+                    </div>
+                {{/if}}
+                {{#if editRoleFormView}}
+                    <h4>
+                        Edit
+                    </h4>
+                    <form action="/role/edit" method="post">
+                        <div class="mb-3">
+                            <label for="roleName" class="form-label">Edit Role</label>
+                            <input type="text" class="form-control" value="{{role.name}}" name="roleName" id="roleName" aria-describedby="Role Name"><div id="emailHelp" class="form-text">Please add a Role.</div>
+                            <input type="hidden" value="{{role.id}}" name="id">
+                        </div>
+
+                        <button type="submit" class="btn btn-success">Save Changes</button>
+
+                    </form>
+                {{/if}}
+
+                {{#if saveEditRoleMsg}}
+
+                <div class="modal" id="myModal" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content" id="myModal">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Modal title</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>New Role name updated to:{{updatedName}}</p>
+                            </div>
+
+                        </div>
+                    </div>
+                    <script>
+                        var myModal = new bootstrap.Modal(document.getElementById('myModal'));
+                        myModal.show();
+                    </script>
+                {{/if}}
+
+                {{#if deleteRoleMsg}}
+                    <div class="alert alert-success" role="alert">
+                        <h4 class="alert-heading">Role deleted:</h4>
+                    </div>
+                {{/if}}
+
+            </div>
+            </div>
+        </div>
+
+{{/partial}}
+
+{{> layout.hbs}}

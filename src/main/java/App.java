@@ -53,8 +53,9 @@ public class App {
         port(getHerokuAssignedPort());
         staticFileLocation("/public");
 
-        String connectionString = "jdbc:postgresql://localhost:5432/technology";      //connect to todolist, not todolist_test!
-        Sql2o sql2o = new Sql2o(connectionString, "admin", "admin");
+//        String connectionString = "jdbc:postgresql://localhost:5432/technology";      //connect to todolist, not todolist_test!
+        String connectionString = "jdbc:postgresql://ec2-52-206-44-27.compute-1.amazonaws.com:5432/d95n5un2ca5iaj";
+        Sql2o sql2o = new Sql2o(connectionString, "zwidsrmbldecpt", "b8849a518aa2c66093ee73eb2cd8c869b63c6a9f1929c5c32be2df6a4dbcf684");
         SqlDepartmentsDao sqlDepartmentDao = new SqlDepartmentsDao(sql2o);
         SqlRolesDao sqlRolesDao = new SqlRolesDao(sql2o);
         SqlResponsibilitiesDao sqlResponsibilitiesDao = new SqlResponsibilitiesDao(sql2o);

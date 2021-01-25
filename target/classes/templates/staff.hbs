@@ -1,0 +1,144 @@
+{{#partial "content"}}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8" id="content-panel">
+                {{#each staff}}
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tbody>
+
+
+
+                            <tr>
+                                <td>{{id}}</td>
+                                <td>{{name}}</td>
+                                <td>
+                                    <a href="/staff/{{id}}/edit">Edit</a> | <a href="/staff/{{id}}/delete">Delete</a>
+
+<!--                                    <div class="card">-->
+<!--                                        <div class="card-body">-->
+<!--                                            <ul class="nav nav-tabs">-->
+<!--                                                <li class="nav-item">-->
+<!--                                                    <a class="nav-link active" id="role-tab" aria-current="page" href="#roles">Roles</a>-->
+<!--                                                </li>-->
+<!--                                                <li class="nav-item">-->
+<!--                                                    <a class="nav-link" id="responsibilities-tab" href="#responsibilities">Responsibilites</a>-->
+<!--                                                </li>-->
+<!--    -->
+<!--                                            </ul>-->
+<!--                                            <div class="tab-content" id="myTabContent">-->
+<!--                                                <div class="tab-pane fade show active" id="roles" role="tabpanel" aria-labelledby="home-tab">-->
+<!--                                                    roles-->
+<!--                                                </div>-->
+<!--                                                <div class="tab-pane fade" id="responsibilities" role="tabpanel" aria-labelledby="responsibilities-tab">-->
+<!--                                                    responsibilities-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+                                </td>
+
+
+
+                                <!--                                -->
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                {{/each}}
+            </div>
+            <div class="col" id="forms-container">
+
+                {{#if createStaffFormView}}
+                    <form action="/staff/add" method="post">
+                        <div class="mb-3">
+                            <label for="staffName" class="form-label">Staff Names</label>
+                            <input type="text" class="form-control" name="staffName" id="staffName" aria-describedby="Staff Name">
+                            <div id="emailHelp" class="form-text">Please add a Staff.</div>
+
+                        </div>
+
+                        <div class="mb-3">
+                            <select name="chosenRole" id="chosenRole" class="form-select">
+                                <option value="0">Select role to add:</option>
+                                {{#each roleList}}
+                                    <option value="{{id}}">{{name}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <select name="chosenResp" id="chosenResp" class="form-select">
+                                <option value="0">Select responsibility to add:</option>
+                                {{#each respList}}
+                                    <option value="{{id}}">{{name}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Add Staff</button>
+
+                    </form>
+                    <div class="" id="user-feeback">
+                        {{#if createdStaff}}
+                            <div id="emailHelp" class="form-text text-success">Added Staff: {{name}}</div>
+
+                        {{/if}}
+
+
+
+                    </div>
+                {{/if}}
+                {{#if editStaffFormView}}
+                    <h4>
+                        Edit
+                    </h4>
+                    <form action="/staff/edit" method="post">
+                        <div class="mb-3">
+                            <label for="staffName" class="form-label">Edit staff</label>
+                            <input type="text" class="form-control" value="{{staff.name}}" name="staffName" id="staffName" aria-describedby="Staff Name"><div id="emailHelp" class="form-text">Please add a staff.</div>
+                            <input type="hidden" value="{{staff.id}}" name="id">
+                        </div>
+                        <!--:todo add drop downs for selecting responsibilities and roles-->
+
+                        <!--:todo-->
+                        <button type="submit" class="btn btn-success">Save Changes</button>
+
+                    </form>
+                {{/if}}
+
+                {{#if saveEditStaffMsg}}
+
+                <div class="modal" id="myModal" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content" id="myModal">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Modal title</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>New staff name updated to:{{updatedName}}</p>
+                            </div>
+
+                        </div>
+                    </div>
+                    <script>
+                        var myModal = new bootstrap.Modal(document.getElementById('myModal'));
+                        myModal.show();
+                    </script>
+                {{/if}}
+
+                {{#if deleteStaffMsg}}
+                    <div class="alert alert-success" role="alert">
+                        <h4 class="alert-heading">Staff deleted</h4>
+                    </div>
+                {{/if}}
+
+            </div>
+            </div>
+        </div>
+    </div>
+{{/partial}}
+
+{{> layout.hbs}}
