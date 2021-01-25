@@ -1,55 +1,55 @@
 package dao;
 
-import models.Departments;
+import models.Roles;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import org.sql2o.Sql2oException;
 
 import java.util.List;
 
-public class SqlDepartmentsDao implements DepartmentDao{
+public class SqlRolesDao implements RolesDao{
 
 
     private final Sql2o sql2o;
 
-    public SqlDepartmentsDao(Sql2o sql2o) {
+    public SqlRolesDao(Sql2o sql2o) {
         this.sql2o = sql2o;
     }
 
     @Override
-    public List<Departments> getAll() {
+    public List<Roles> getAll() {
         try(Connection con = sql2o.open()){
-            return con.createQuery("SELECT * FROM departments") //raw sql
-                    .executeAndFetch(Departments.class); //fetch a list
+            return con.createQuery("SELECT * FROM roles") //raw sql
+                    .executeAndFetch(Roles.class); //fetch a list
         }
     }
 
     @Override
-    public void add(Departments dept) {
-        String sql = "INSERT INTO departments(name) VALUES(:name)";
+    public void add(Roles role) {
+        String sql = "INSERT INTO roles(name) VALUES(:name)";
         try(Connection con = sql2o.open()){
             int id = (int) con.createQuery(sql, true)
-                    .bind(dept)
+                    .bind(role)
                     .executeUpdate()
                     .getKey();
-            dept.setId(id);
+            role.setId(id);
         } catch (Sql2oException ex) {
             System.out.println(ex);
         }
     }
 
     @Override
-    public Departments findById(int id) {
+    public Roles findById(int id) {
         try(Connection con = sql2o.open()){
-            return con.createQuery("SELECT * FROM departments WHERE id = :id")
+            return con.createQuery("SELECT * FROM roles WHERE id = :id")
                     .addParameter("id", id) //key/value pair, key must match above
-                    .executeAndFetchFirst(Departments.class); //fetch an individual item
+                    .executeAndFetchFirst(Roles.class); //fetch an individual item
         }
     }
 
     @Override
     public void update(int id, String name) {
-        String sql = "UPDATE departments SET name = :name WHERE id=:id";
+        String sql = "UPDATE roles SET name = :name WHERE id=:id";
         try(Connection con = sql2o.open()){
             con.createQuery(sql)
                     .addParameter("name", name)
@@ -62,7 +62,7 @@ public class SqlDepartmentsDao implements DepartmentDao{
 
     @Override
     public void deleteById(int id) {
-        String sql = "DELETE from departments WHERE id=:id"; //raw sql
+        String sql = "DELETE from roles WHERE id=:id"; //raw sql
         try (Connection con = sql2o.open()) {
             con.createQuery(sql)
                     .addParameter("id", id)
@@ -74,7 +74,7 @@ public class SqlDepartmentsDao implements DepartmentDao{
     }
 
     @Override
-    public void clearAllDepartments() {
+    public void clearAllRoles() {
 
     }
 }
