@@ -3,7 +3,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8" id="content-panel">
-                {{#each responsibility}}
+                {{#each responsibilities}}
                     <div class="table-responsive">
                         <table class="table">
                             <tbody>
@@ -22,7 +22,7 @@
             </div>
             <div class="col" id="forms-container">
 
-                {{#if createresponsibilityFormView}}
+                {{#if createResponsibilityFormView}}
                     <form action="/responsibilities/add" method="post">
                         <div class="mb-3">
                             <label for="responsibilityName" class="form-label">Responsibility Name</label>
@@ -90,7 +90,7 @@
             </div>
             </div>
         </div>
-
+    </div>
 {{/partial}}
 
 {{> layout.hbs}}

@@ -13,12 +13,30 @@
                                 <td>
                                     <a href="/staff/{{id}}/edit">Edit</a> | <a href="/staff/{{id}}/delete">Delete</a>
                                 </td>
+
+                                <ul class="nav nav-tabs">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="role-tab" aria-current="page" href="#roles">Roles</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="responsibilities-tab" href="#responsibilities">Responsibilites</a>
+                                    </li>
+
+                                </ul>
+                                <div class="tab-content" id="myTabContent">
+                                    <div class="tab-pane fade show active" id="roles" role="tabpanel" aria-labelledby="home-tab">
+                                        roles
+                                    </div>
+                                    <div class="tab-pane fade" id="responsibilities" role="tabpanel" aria-labelledby="responsibilities-tab">
+                                        responsibilities
+                                    </div>
+                                </div>
+<!--                                -->
                             </tr>
                             </tbody>
                         </table>
                     </div>
                 {{/each}}
-
             </div>
             <div class="col" id="forms-container">
 
@@ -30,15 +48,26 @@
                             <div id="emailHelp" class="form-text">Please add a Staff.</div>
 
                         </div>
-                        <!--:todo add drop downs for selecting responsibilities and roles-->
-                        <select name="chosenResp" id="chhosenResp">
-                            <option value="0">Select responsibility to add:</option>
-                            {{#each respList}}
 
-                            {{/each}}
-                        </select>
-                        <!--:todo-->
-                        <button type="submit" class="btn btn-primary">Add Department</button>
+                        <div class="mb-3">
+                            <select name="chosenRole" id="chosenRole" class="form-select">
+                                <option value="0">Select role to add:</option>
+                                {{#each roleList}}
+                                    <option value="{{id}}">{{name}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <select name="chosenResp" id="chosenResp" class="form-select">
+                                <option value="0">Select responsibility to add:</option>
+                                {{#each respList}}
+                                    <option value="{{id}}">{{name}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Add Staff</button>
 
                     </form>
                     <div class="" id="user-feeback">
@@ -99,7 +128,7 @@
             </div>
             </div>
         </div>
-
+    </div>
 {{/partial}}
 
 {{> layout.hbs}}

@@ -48,7 +48,7 @@ public class SqlStaffDao implements StaffDao {
 
     @Override
     public void update(int id, String name) {
-        String sql = "UPDATE departments SET name = :name WHERE id=:id";
+        String sql = "UPDATE staff SET name = :name WHERE id=:id";
         try(Connection con = sql2o.open()){
             con.createQuery(sql)
                     .addParameter("name", name)
@@ -60,12 +60,35 @@ public class SqlStaffDao implements StaffDao {
     }
 
     @Override
-    public void deleteById(int id) {
+    public void addRoleToUser(int userID, int roleID) {
+        String sql = "INSERT INTO staff_roles(staff_id,role_id) VALUES(:userID, :roleID)";
+        try(Connection con = sql2o.open()){
+            int id = (int) con.createQuery(sql, true)
+                    .bind(userID)
+                    .bind(roleID)
+                    .executeUpdate()
+                    .getKey();
+        } catch (Sql2oException ex) {
+            System.out.println(ex);
+        }
 
     }
 
     @Override
-    public void clearAllDepartments() {
+    public void deleteById(int id) {
+        String sql = "DELETE from staff WHERE id=:id"; //raw sql
+        try (Connection con = sql2o.open()) {
+            con.createQuery(sql)
+                    .addParameter("id", id)
+                    .executeUpdate();
+        } catch (Sql2oException ex){
+            System.out.println(ex);
+        }
+
+    }
+
+    @Override
+    public void clearAllStaff() {
 
     }
 }

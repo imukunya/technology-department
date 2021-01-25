@@ -19,7 +19,7 @@ public class SqlRolesDao implements RolesDao{
     @Override
     public List<Roles> getAll() {
         try(Connection con = sql2o.open()){
-            return con.createQuery("SELECT * FROM departments") //raw sql
+            return con.createQuery("SELECT * FROM roles") //raw sql
                     .executeAndFetch(Roles.class); //fetch a list
         }
     }

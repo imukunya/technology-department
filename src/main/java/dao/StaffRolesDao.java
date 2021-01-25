@@ -1,18 +1,18 @@
 package dao;
-import models.Staff;
+
+import models.StaffRoles;
 
 import java.util.List;
 
-public interface StaffDao {
-
+public interface StaffRolesDao {
     // LIST
-    List<Staff> getAll();
+    List<StaffRoles> getAll();
 
     // CREATE
-    void add(Staff staff);
+    void add(StaffRoles staff);
 
     // READ
-    Staff findById(int id);
+    StaffRoles findById(int id);
 
     //UPDATE
     void update(int id, String name);

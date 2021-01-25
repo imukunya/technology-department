@@ -3,10 +3,7 @@ import java.util.List;
 import java.util.Map;
 
 import dao.*;
-import models.Departments;
-import models.Responsibilities;
-import models.Roles;
-import models.Staff;
+import models.*;
 import org.sql2o.*;
 import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
@@ -39,7 +36,7 @@ public class App {
     public static Boolean saveEditStaffMsg =false;
     public static Boolean deleteStaffMsg = false;
 
-
+    public static Boolean activeLink =false;
     public static void main(String[] args) {
 
 
@@ -51,6 +48,7 @@ public class App {
         SqlRolesDao sqlRolesDao = new SqlRolesDao(sql2o);
         SqlResponsibilitiesDao sqlResponsibilitiesDao = new SqlResponsibilitiesDao(sql2o);
         SqlStaffDao sqlStaffDao = new SqlStaffDao(sql2o);
+        SqlStaffRolesDao sqlStaffRolesDao = new SqlStaffRolesDao(sql2o);
         testConnection(sql2o);
         if(connectionStatus){
             System.out.print("Connected");
@@ -96,6 +94,8 @@ public class App {
             model.put("name",name);
             createdDept = true;
             model.put("createdDept",createdDept);
+            departments = new SqlDepartmentsDao(sql2o).getAll();
+            model.put("departments", departments);
             return new ModelAndView(model, "departments.hbs");
         }, new HandlebarsTemplateEngine());
 
@@ -194,6 +194,8 @@ public class App {
             model.put("name",name);
             createdRole = true;
             model.put("createdRole",createdRole);
+            roles = new SqlRolesDao(sql2o).getAll();
+            model.put("roles", roles);
             return new ModelAndView(model, "roles.hbs");
         }, new HandlebarsTemplateEngine());
 
@@ -290,8 +292,10 @@ public class App {
             sqlResponsibilitiesDao.add(responsibility);
             int addedID = responsibility.getId();
             model.put("name",name);
-            createdRole = true;
+            createdResponsibility = true;
             model.put("createdResponsibility",createdResponsibility);
+            responsibilities = new SqlResponsibilitiesDao(sql2o).getAll();
+            model.put("responsibilities", responsibilities);
             return new ModelAndView(model, "responsibilities.hbs");
         }, new HandlebarsTemplateEngine());
 
@@ -320,7 +324,7 @@ public class App {
             model.put("responsibilities", responsibilities);
 
             int id = Integer.parseInt(req.queryParams("id"));
-            String updatedName = req.queryParams("roleName");
+            String updatedName = req.queryParams("responsibilityName");
 
             System.out.print("UPDATED NAME:"+updatedName);
             sqlResponsibilitiesDao.update(id,updatedName);
@@ -363,12 +367,16 @@ public class App {
 
         get("/staff", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
-
             List <Staff> staff = new SqlStaffDao(sql2o).getAll();
             model.put("staff", staff);
+            List <Responsibilities> respList = new SqlResponsibilitiesDao(sql2o).getAll();
+            List <Roles> roleList = new SqlRolesDao(sql2o).getAll();
+            model.put("respList",respList);
+            model.put("roleList",roleList);
             createStaffFormView = true;
             model.put("createStaffFormView", createStaffFormView);
-            //model.put("",);
+            activeLink =true;
+            model.put("activeLink",activeLink);
             return new ModelAndView(model, "staff.hbs");
         }, new HandlebarsTemplateEngine());
 
@@ -377,6 +385,10 @@ public class App {
             Map<String, Object> model = new HashMap<>();
             List <Staff> staff = new SqlStaffDao(sql2o).getAll();
             model.put("staff", staff);
+            List <Responsibilities> respList = new SqlResponsibilitiesDao(sql2o).getAll();
+            List <Roles> roleList = new SqlRolesDao(sql2o).getAll();
+            model.put("respList",respList);
+            model.put("roleList",roleList);
             createStaffFormView = true;
             model.put("createStaffFormView", createStaffFormView);
             String name = req.queryParams("staffName");
@@ -384,9 +396,26 @@ public class App {
             Staff staffer = new Staff(name);
             sqlStaffDao.add(staffer);
             int addedID = staffer.getId();
+
+            //INSERT ROLES
+            //get the submitted role
+            int selectedRole = Integer.parseInt(req.queryParams("chosenRole"));
+            System.out.print("++++++++++++++++++++++++++++++++++++++++++++++");
+            System.out.print(addedID);
+            System.out.print(selectedRole);
+            //add role
+            StaffRoles staffRole = new StaffRoles(addedID,selectedRole);
+            sqlStaffRolesDao.add(staffRole);
+
+            //INSERT RESPONSIBILITIES
+            //
+
             model.put("name",name);
             createdStaff = true;
             model.put("createdStaff",createdStaff);
+
+            staff = new SqlStaffDao(sql2o).getAll();
+            model.put("staff",staff);
             return new ModelAndView(model, "staff.hbs");
         }, new HandlebarsTemplateEngine());
 
