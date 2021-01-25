@@ -17,7 +17,7 @@ public class App {
         staticFileLocation("/public");
 
         String connectionString = "jdbc:postgresql://localhost:5432/technology";      //connect to todolist, not todolist_test!
-        Sql2o sql2o = new Sql2o(connectionString, "admin", "admin");
+        Sql2o sql2o = new Sql2o(connectionString, "postgres", "admin");
         SqlDepartmentsDao sqlDepartmentDao = new SqlDepartmentsDao(sql2o);
 
         testConnection(sql2o);
